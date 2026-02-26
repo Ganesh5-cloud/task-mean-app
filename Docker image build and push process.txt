@@ -1,0 +1,92 @@
+1. Create Dockerfile in frontend
+
+               cd frontend
+
+               vi Dockerfile
+
+# Build Stage
+FROM node:18 as build
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Production Stage
+FROM nginx:alpine
+
+COPY --from=build /app/dist/angular-15-crud /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]]
+
+Save and quit
+
+2. Create Doekerfile backend
+
+               cd frontend
+
+               vi Dockerfile
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]]
+ 
+save and quit
+
+3.  Open Windows Powershell as administrater
+     There you can check docker version and build images
+
+4.  Build frontend code image
+
+               docker build -t dockerhubusername/frontend-app:latest ./frontend
+
+               docker build -t gorliganesh321/frontend-app:latest ./frontend
+
+5.  Build backend code image
+
+               docker build -t dockerhubusername/backend-app:latest ./backend
+
+               docker build -t gorliganesh321/backend-app:latest ./backend
+
+6.  Push the Docker images to Docker hub before that we can repositories in Dockerhub so open web browser and login/create accont and loging  and create repositories name as
+
+               frontend-app
+
+               backend-app
+
+7.  Come back to the Powershell and connect the device to Docker hub
+        
+               docker login
+
+               open displayed link
+
+               enther the displayed code
+
+     connected successfully
+
+8.  Then push images to docker hub 
+
+               docker push yourdockerhub/backend-app:latest
+
+               docker push gorliganesh321/backend-app:latest
+      
+               docker push yourdockerhub/frontend-app:latest
+
+               docker push gorliganesh321/frontend-app:latest
+
+    docker image push is succeded
+    if any error occures solve it in locally

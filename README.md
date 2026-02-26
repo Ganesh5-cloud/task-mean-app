@@ -1,27 +1,108 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.  
+In this DevOps project, you will design, containerize, and deploy a **full-stack CRUD application** using the **MEAN stack (MongoDB, Express, Angular, and Node.js)**, fully automated with **Docker, Docker Compose, Nginx, and CI/CD**.
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+The backend is built using **Node.js and Express**, exposing RESTful APIs that interact with a **MongoDB** database.  
+The frontend is developed using **Angular**, which communicates with the backend using **HttpClient**.
 
-## Project setup
+The entire application is deployed on an **Ubuntu virtual machine**, exposed through **port 80 only** using **Nginx as a reverse proxy**, and continuously deployed using **GitHub Actions**.
 
-### Node.js Server
+---
 
-cd backend
+## Application Description
 
-npm install
+The application manages a collection of **tutorials**, where each tutorial contains:
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+- ID  
+- Title  
+- Description  
+- Published status  
 
-Run `node server.js`
+Users can perform the following operations:
 
-### Angular Client
+- Create a tutorial  
+- View all tutorials  
+- View a tutorial by ID  
+- Update a tutorial  
+- Delete a tutorial  
+- Search tutorials by title  
 
-cd frontend
+---
 
-npm install
+## Project Setup
 
-Run `ng serve --port 8081`
+### Backend (Node.js + Express)
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+Navigate to the backend directory:
 
-Navigate to `http://localhost:8081/`
+```bash
+ cd backend
+ ## Install dependencies
+    npm install
+ ## Update MongoDB connection details in
+    app/config/db.config.js
+ ## The backend API runs on:
+    http://localhost:8080/api
+
+Navigate to the rontend directory:
+
+```bash
+  cd frontend 
+## Install dependencies
+    npm install
+## Access the frontend at:
+   http://localhost:80/
+
+## Docker Setup
+# Backend Dockerfile
+
+The backend is containerized using Node.js Alpine image and exposes port 5000 for API access.
+
+# Frontend Dockerfile
+
+The Angular application is built using a multi-stage Docker build and served using Nginx.
+
+## Docker Compose Deployment
+
+Docker Compose is used to orchestrate the following services:
+
+Frontend container
+
+Backend container
+
+MongoDB container
+
+Nginx reverse proxy
+
+All services run on a single Docker network, and only port 80 is exposed to users.
+
+# Nginx Reverse Proxy
+
+Nginx acts as a single entry point for the application:
+
+/ → Frontend (Angular)
+
+/api → Backend (Node.js API)
+
+This ensures clean routing and centralized access
+
+# CI/CD Pipeline
+
+A CI/CD pipeline is implemented using GitHub Actions:
+
+Triggered on push to the main branch
+
+Builds updated Docker images for frontend and backend
+
+Pushes images to Docker Hub
+
+Connects to the Ubuntu VM via SSH
+
+Pulls latest images
+
+Restarts containers using Docker Compose
+
+This enables fully automated deployments.
+
+# Application Access
+  http://<VM_PUBLIC_IP>
+
+

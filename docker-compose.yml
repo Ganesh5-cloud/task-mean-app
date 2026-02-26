@@ -1,29 +1,39 @@
+
 services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
+      - "80:90"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - frontend
-      - backend
-
-  frontend:
-    image: gorliganesh321/frontend-app:latest
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
 
   backend:
-    image: gorliganesh321/backend-app:latest
-    environment:
-      MONGO_URI: mongodb://mongodb:27017/appdb
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "8080:8080"
     depends_on:
       - mongodb
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/dd_db
 
-  mongodb:
-    image: mongo:6.0
-    volumes:
-      - mongo_data:/data/db
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
-  mongo_data:
-
+  mongo-data:

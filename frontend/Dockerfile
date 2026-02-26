@@ -1,13 +1,19 @@
-FROM node:18-alpine AS build
+# Build Stage
+FROM node:18 as build
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+
 COPY . .
-RUN npm run build -- --configuration production
+RUN npm run build
 
+# Production Stage
 FROM nginx:alpine
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=build /app/dist/ /usr/share/nginx/html
 
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+COPY --from=build /app/dist/angular-15-crud /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]]

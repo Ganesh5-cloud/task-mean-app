@@ -1,0 +1,148 @@
+1. Download the source code from the source then unzip the file and open projct folder there you open Gitbash
+
+2. Create Dockerfile in frontend ad also create nginx folder in that default.conf file
+
+3. Create Dockerfile in backend 
+
+4. Create nginx folder in that nginx.conf file 
+
+5. Build docker image locall inthat you need to download Docker Engine locally 
+    Go to browser search for download docker engine for windows 
+    Download and install the docker
+    Also install Ubuntu 22.04 LTS from Microsoft store
+
+6. Open Windows Powershell as administrater
+    There you can check docker version and build images
+
+7. Build frontend code image
+
+               docker build -t dockerhubusername/frontend-app:latest ./frontend
+
+               docker build -t gorliganesh321/frontend-app:latest ./frontend
+
+8. Build backend code image
+
+               docker build -t dockerhubusername/backend-app:latest ./backend
+
+               docker build -t gorliganesh321/backend-app:latest ./backend
+
+9. Push the Docker images to Docker hub before that we can repositories in Dockerhub so open web browser and login/create accont and loging  and create repositories name as
+
+               rontend-app
+
+               backend-app
+
+10. Come back to the Powershell and connect the device to Docker hub
+        
+               docker login
+
+               open displayed link
+
+               enther the displayed code
+
+               connected successfully
+
+11. Then push images to docker hub 
+
+               docker push yourdockerhub/backend-app:latest
+
+               docker push gorliganesh321/backend-app:latest
+      
+               docker push yourdockerhub/frontend-app:latest
+
+               docker push gorliganesh321/frontend-app:latest
+
+    docker image push is succeded
+    if any error occures solve it in locally
+
+12. Go to git hub create repository and copy the URL
+
+13. Go back to the root folder and there open gitbash 
+
+               git init
+
+               git status
+
+               git add .
+
+               git commit -m " message "
+
+               git remote add origin yourgithubrepoURL
+
+               git remote -v
+
+               git branch -M main
+
+               git push origin -u main
+
+   All the files successfully pushed to remote repo
+
+14.  Go to aws console and launch instance with ubuntu 22.04 version type : t2.medium
+
+15.   Go to security groups and edit inbound rules add ports
+                      80
+                      8080
+                  
+16.  Connect to instance through ssh-key / ssh client
+
+               sudo apt update
+
+               add docker library to apt repository and install docker and docker comopse
+
+               sudo usermod -aG docker ubuntu    ( Create one ubuntu user )
+
+               git clone githubrepoURL                  ( Clone github repo on VM )
+
+               ls                                                    ( ckeck files and folder existed in that path )
+
+               cd githubrepo_name                      ( Enter into the repo )
+
+17.  pull the images from docker hub create and run the Docker containers
+
+               sudo docker compose up -d
+
+               sudo docker ps
+
+      containers created and run successfully 
+
+      if you get any errors during this process solve it manually and check
+
+18. Check the application in web browser
+
+               http://publicIP:AssignedPort
+
+The the above process what we have done in manually now we can write CI/CD automation using Github Actions
+
+19. Go back to the root folder and there open gitbash
+
+               create folder .github/workflows in that folder create ci-cd.yml there u define automation stages
+
+20 . Add GitHub Secrets
+
+               In GitHub repo → Settings → Secrets:
+
+               DOCKER_USERNAME
+
+               DOCKER_PASSWORD
+
+               VM_HOST
+
+               VM_SSH_KEY
+
+21. All done then add, commit and push the code 
+          
+               git add .
+
+               git commit -m "message"
+
+               git push -u main
+Whwn ever the developer pueshe the code to remote repo it automatically built and deployed the code
+
+22. Check the application in web browser
+
+               http://publicIP:AssignedPort
+
+
+
+            
+ 
