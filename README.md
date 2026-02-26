@@ -42,6 +42,8 @@ Navigate to the backend directory:
  ## The backend API runs on:
     http://localhost:8080/api
 
+### frontend (Angular)
+
 Navigate to the rontend directory:
 
 ```bash
