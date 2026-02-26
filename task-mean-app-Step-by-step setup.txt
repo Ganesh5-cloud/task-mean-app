@@ -135,7 +135,7 @@ The the above process what we have done in manually now we can write CI/CD autom
 
                git commit -m "message"
 
-               git push -u main
+               git push rogin main
 Whwn ever the developer pueshe the code to remote repo it automatically built and deployed the code
 
 22. Check the application in web browser
